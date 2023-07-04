@@ -3,22 +3,29 @@ package ohm.softa.a13.tweets;
 import ohm.softa.a13.model.Tweet;
 import org.apache.commons.lang3.NotImplementedException;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.*;
 
 public class TrumpTweetStats {
 
     public static Map<String, Long> calculateSourceAppStats(Stream<Tweet> tweetStream) {
-        /* TODO group the tweets by the `sourceApp` they were created with and count how many it were per `sourceApp` */
-        throw new NotImplementedException("TrumpTweetStats.calculateSourceAppStats(...) not implemented yet.");
+		Map<String, Long> tweetAppCount = tweetStream
+			.collect(groupingBy(Tweet::getSourceApp,
+					Collectors.counting()));
+
+		return tweetAppCount;
     }
 
     public static Map<String, Set<Tweet>> calculateTweetsBySourceApp(Stream<Tweet> tweetStream) {
-        /* TODO group the tweets by the `sourceApp`
-         * collect the tweets in `Set`s for each source app */
-        throw new NotImplementedException("TrumpTweetStats.calculateTweetsBySourceApp(...) not implemented yet.");
+        Map<String, Set<Tweet>> tweetsByApp = tweetStream
+			.collect(groupingBy(Tweet::getSourceApp, toSet()));
+		return tweetsByApp;
     }
 
     public static Map<String, Integer> calculateWordCount(Stream<Tweet> tweetStream, List<String> stopWords) {
@@ -26,6 +33,7 @@ public class TrumpTweetStats {
         /* TODO split the tweets, lower them, trim them, remove all words that are in the `stopWords`,
          * reduce the result to a Map<String, Integer> to count how often each word were in the tweets
          * optionally you could filter for all words that were used more than 10 times */
+
         throw new NotImplementedException("TrumpTweetStats.tweetStream(...) not implemented yet.");
     }
 }

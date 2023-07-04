@@ -1,8 +1,12 @@
 package ohm.softa.a13.tweets;
 
+import com.google.gson.Gson;
 import ohm.softa.a13.model.Tweet;
 import org.apache.commons.lang3.NotImplementedException;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -23,9 +27,12 @@ public class TweetStreamGenerator {
 	 * @return
 	 */
 	public static TweetStreamGenerator fromJson(String path) {
-		// TODO use gson to read in the tweets from the referenced path
-		// use the getResourceAsStream method to access files in the `resources` directory
+		InputStream is  = Tweet[].class.getResourceAsStream(path);
+		Reader reader = new InputStreamReader(is);
 
-		throw new NotImplementedException("Not implemented");
+		Gson gson = new Gson();
+		Tweet[] tweets = gson.fromJson(reader, Tweet[].class);
+
+		return new TweetStreamGenerator(List.of(tweets));
 	}
 }

@@ -35,4 +35,10 @@ class TwitterStreamSourceTest {
         assertEquals(3225, tweets.size());
         assertTrue(tweets.stream().noneMatch(Objects::isNull));
     }
+
+	@Test
+	void outputTweets(){
+		TweetStreamGenerator tsg = TweetStreamGenerator.fromJson(path);
+		tsg.getTweetStream().limit(10).map(x -> x.getSourceApp()).forEach(System.out::println);
+	}
 }
