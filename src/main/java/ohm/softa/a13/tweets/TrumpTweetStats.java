@@ -3,10 +3,7 @@ package ohm.softa.a13.tweets;
 import ohm.softa.a13.model.Tweet;
 import org.apache.commons.lang3.NotImplementedException;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -28,12 +25,16 @@ public class TrumpTweetStats {
 		return tweetsByApp;
     }
 
-    public static Map<String, Integer> calculateWordCount(Stream<Tweet> tweetStream, List<String> stopWords) {
-        /* Remark: implement this method at last */
-        /* TODO split the tweets, lower them, trim them, remove all words that are in the `stopWords`,
-         * reduce the result to a Map<String, Integer> to count how often each word were in the tweets
-         * optionally you could filter for all words that were used more than 10 times */
+    public static Map<String, Long> calculateWordCount(Stream<Tweet> tweetStream, List<String> stopWords) {
+		Map<String, Long> möp = tweetStream
+			.map(Tweet::getText)
+			.map(t -> t.split(" "))
+			.flatMap(Arrays::stream)
+			.map(String::toLowerCase)
+			.map(String::trim)
+			.filter(t -> !stopWords.contains(t))
+			.collect(Collectors.groupingBy(s -> s, counting()));
 
-        throw new NotImplementedException("TrumpTweetStats.tweetStream(...) not implemented yet.");
+		return möp;
     }
 }

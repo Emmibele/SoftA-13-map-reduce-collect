@@ -52,7 +52,7 @@ class TrumpTweetStatsTest {
     @Test
     void getWordCount() {
 		Stream<Tweet> tweetStream = tsg.getTweetStream();
-        Map<String, Integer> wordCount = TrumpTweetStats.calculateWordCount(tweetStream, stopWords);
+        Map<String, Long> wordCount = TrumpTweetStats.calculateWordCount(tweetStream, stopWords);
 
 		assertNotEquals(0, wordCount.keySet().size());
         logger.info(PrintUtils.mapToString(wordCount));
